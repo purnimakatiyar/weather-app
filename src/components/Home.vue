@@ -4,7 +4,7 @@
       <img class="size-20" alt="Weather logo" src="../assets/weather.png">
     </div>
     <h1 class="text-xl font-bold">Weather Information</h1>
-    <form class="weather-form"@submit="getWeather">
+    <form class="weather-form" @submit="getWeather">
       <input type="text" v-model="form.city" placeholder="Enter City">
       <button type="submit" :disabled="isLoading">
         <div v-if="isLoading" class="loader"></div> 
@@ -29,68 +29,77 @@
         <p>Temperature Min:{{ day.tempmin }}</p>
         <p>Climate: {{ day.description }}</p>
   </div>
-
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
   name: 'Home',
-  data() {
-    return {
-        apiKey: "9PPEYVDKG65Y5Y9MEUJMEHGXN",
-        baseUrl: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/",
-        form: {
-            city: ""
-        },
-        weatherData: {},
-        isEmpty: true,
-        isLoading: false,
-        errorMessage: "",
-    }
-  },
-  methods: {
-    async getWeather(e) {
-        e.preventDefault();
-      this.errorMessage = '';
-      this.isLoading = true;
-      try{
-      await fetch(`${this.baseUrl}${this.form.city}?key=${this.apiKey}`)
-        .then(res => {
-          return res.json();
-        }).then(this.setResults)
-      }
-      catch(e){
-        this.isLoading = false;
-        this.isEmpty = true;
-        this.errorMessage = "Failed to fetch weather data. Please try again.";
-      }
-    },
-    setResults (results) {
-        this.isLoading = false;
-        this.weatherData = results;
-        this.isEmpty = false;
+  setup() {
+    const apiKey = "9PPEYVDKG65Y5Y9MEUJMEHGXN";
+    const baseUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
+    const form = ref({ city: "" });
+    const weatherData = ref({});
+    const isEmpty = ref(true);
+    const isLoading = ref(false);
+    const errorMessage = ref("");
 
-    },
-    getWeatherIcon(icon) {
-    const icons = {
-      'rain': require('../assets/rain.jpg'),
-      'partly-cloudy-day': require('../assets/partly.png'),
-      'fog': require('../assets/fog.png'),
-      'snow': require('../assets/snow.jpg'),
-      'wind': require('../assets/wind.jpg'),
-      'partly-cloudy-night': require('../assets/partly.png'),
-      'cloudy': require('../assets/cloudy.png'),
-      'clear-day': require('../assets/sunny.png'),
-      'clear-night': require('../assets/sunny.png'),
+    const getWeather = async (e) => {
+      e.preventDefault();
+      errorMessage.value = '';
+      isLoading.value = true;
+      try {
+        const response = await fetch(`${baseUrl}${form.value.city}?key=${apiKey}`);
+        const results = await response.json();
+        setResults(results);
+      } catch (e) {
+        console.log("Error fetching weather data");
+        isLoading.value = false;
+        isEmpty.value = true;
+        errorMessage.value = "Failed to fetch weather data. Please try again.";
+      }
     };
-    return icons[icon];
+
+    const setResults = (results) => {
+      console.log(isLoading.value);
+      isLoading.value = false;
+      weatherData.value = results;
+      isEmpty.value = false;
+    };
+
+    const getWeatherIcon = (icon) => {
+      const icons = {
+        'rain': require('../assets/rain.jpg'),
+        'partly-cloudy-day': require('../assets/partly.png'),
+        'fog': require('../assets/fog.png'),
+        'snow': require('../assets/snow.jpg'),
+        'wind': require('../assets/wind.jpg'),
+        'partly-cloudy-night': require('../assets/partly.png'),
+        'cloudy': require('../assets/cloudy.png'),
+        'clear-day': require('../assets/sunny.png'),
+        'clear-night': require('../assets/sunny.png'),
+      };
+      console.log(icon);
+      console.log(icons[icon]);
+      return icons[icon];
+    };
+
+    return {
+      form,
+      weatherData,
+      isEmpty,
+      isLoading,
+      errorMessage,
+      getWeather,
+      getWeatherIcon
+    };
   }
-  }
-}
+};
 </script>
 
 <style>
-.weather-form input{
+.weather-form input {
   width: 100%;
   height: 40px;
   padding-left: 20px;
@@ -101,7 +110,7 @@ export default {
   margin-left: auto;
   border: 1px solid #87CEEB;
 }
-.weather-form button{
+.weather-form button {
   width: 320px;
   height: 40px;
   border: 1px solid #87CEEB;
