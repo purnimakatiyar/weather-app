@@ -54,7 +54,6 @@ export default {
         const results = await response.json();
         setResults(results);
       } catch (e) {
-        console.log("Error fetching weather data");
         isLoading.value = false;
         isEmpty.value = true;
         errorMessage.value = "Failed to fetch weather data. Please try again.";
@@ -62,7 +61,6 @@ export default {
     };
 
     const setResults = (results) => {
-      console.log(isLoading.value);
       isLoading.value = false;
       weatherData.value = results;
       isEmpty.value = false;
@@ -80,8 +78,6 @@ export default {
         'clear-day': require('../assets/sunny.png'),
         'clear-night': require('../assets/sunny.png'),
       };
-      console.log(icon);
-      console.log(icons[icon]);
       return icons[icon];
     };
 
