@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center flex-col sns">
+  <div class="flex justify-center items-center flex-col sns mt-10">
     <div class="flex justify-center items-center">
       <img class="size-20" alt="Weather logo" src="../assets/weather.png">
     </div>
@@ -128,7 +128,7 @@ export default {
   margin-bottom: 20px;
   margin-right: auto;
   margin-left: auto;
-  border: 1px solid #87CEEB;
+  border: 1px solid #000000;
 }
 .weather-form button{
   width: 320px;
@@ -141,7 +141,7 @@ export default {
 
 .weather-card {
   justify-content: space-between;
-  border: 1px solid #87CEEB;
+  border: 1px solid #000000;
   padding: 2%;
   margin-bottom: 2%;
   margin-left: 35%;
