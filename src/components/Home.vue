@@ -55,79 +55,61 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 import Modal from './Modal.vue';
 
-export default {
-  name: 'Home',
-  components: {
-    Modal
-  },
-  setup() {
-    const apiKey = "9PPEYVDKG65Y5Y9MEUJMEHGXN";
-    const baseUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
-    const form = ref({ city: "" });
-    const weatherData = ref({});
-    const isEmpty = ref(true);
-    const isLoading = ref(false);
-    const errorMessage = ref("");
-    const showModal = ref(false);
 
-    const getWeather = async (e) => {
-      e.preventDefault();
-      errorMessage.value = '';
-      isLoading.value = true;
-      try {
-        const res = await fetch(`${baseUrl}${form.value.city}?key=${apiKey}`);
-        const data = await res.json();
-        setResults(data);
-      } catch (e) {
-        isLoading.value = false;
-        isEmpty.value = true;
-        errorMessage.value = "Failed to fetch weather data. Please try again.";
-      }
-    };
+const apiKey = "9PPEYVDKG65Y5Y9MEUJMEHGXN";
+const baseUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
 
-    const setResults = (results) => {
-      isLoading.value = false;
-      weatherData.value = results;
-      isEmpty.value = false;
-    };
+const form = ref({ city: "" });
+const weatherData = ref({});
+const isEmpty = ref(true);
+const isLoading = ref(false);
+const errorMessage = ref("");
+const showModal = ref(false);
 
-    const getWeatherIcon = (icon) => {
-      const icons = {
-        'rain': require('../assets/rain.jpg'),
-        'partly-cloudy-day': require('../assets/partly.png'),
-        'fog': require('../assets/fog.png'),
-        'snow': require('../assets/snow.jpg'),
-        'wind': require('../assets/wind.jpg'),
-        'partly-cloudy-night': require('../assets/partly.png'),
-        'cloudy': require('../assets/cloudy.png'),
-        'clear-day': require('../assets/sunny.png'),
-        'clear-night': require('../assets/sunny.png'),
-      };
-      return icons[icon];
-    };
 
-    const getMoreDetails = () => {
-      showModal.value = true;
-    };
-
-    return {
-      form,
-      weatherData,
-      isEmpty,
-      isLoading,
-      errorMessage,
-      showModal,
-      getWeather,
-      setResults,
-      getWeatherIcon,
-      getMoreDetails
-    };
+const getWeather = async (e) => {
+  e.preventDefault();
+  errorMessage.value = '';
+  isLoading.value = true;
+  try {
+    const res = await fetch(`${baseUrl}${form.value.city}?key=${apiKey}`);
+    const data = await res.json();
+    setResults(data);
+  } catch (e) {
+    isLoading.value = false;
+    isEmpty.value = true;
+    errorMessage.value = "Failed to fetch weather data. Please try again.";
   }
-}
+};
+
+const setResults = (results) => {
+  isLoading.value = false;
+  weatherData.value = results;
+  isEmpty.value = false;
+};
+
+const getWeatherIcon = (icon) => {
+  const icons = {
+    'rain': require('../assets/rain.jpg'),
+    'partly-cloudy-day': require('../assets/partly.png'),
+    'fog': require('../assets/fog.png'),
+    'snow': require('../assets/snow.jpg'),
+    'wind': require('../assets/wind.jpg'),
+    'partly-cloudy-night': require('../assets/partly.png'),
+    'cloudy': require('../assets/cloudy.png'),
+    'clear-day': require('../assets/sunny.png'),
+    'clear-night': require('../assets/sunny.png'),
+  };
+  return icons[icon];
+};
+
+const getMoreDetails = () => {
+  showModal.value = true;
+};
 </script>
 
 <style>
