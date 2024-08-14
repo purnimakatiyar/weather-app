@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center flex-col">
+  <div class="flex justify-center items-center flex-col sns">
     <div class="flex justify-center items-center">
       <img class="size-20" alt="Weather logo" src="../assets/weather.png">
     </div>
@@ -22,19 +22,42 @@
     <p>Temperature: {{ weatherData?.currentConditions?.temp }}°F</p>
     <p class="font-bold text-lg mt-8">Future Forecast</p>
   </div>
-  <div v-if="!isEmpty" class="w-96 flex justify-center items-center flex-col weather-card" v-for="day in weatherData.days">
+  <div v-if="!isEmpty" class="flex justify-center flex-wrap gap-4">
+    <div v-for="day in weatherData.days" :key="day.datetime" class="w-96 flex flex-col items-center border border-blue-300 rounded-lg p-4">
     <img :src="getWeatherIcon(day.icon)" alt="Weather Icon" class="w-16 h-16 mt-2" />
         <p>Date: {{ day.datetime }}</p>
         <p>Temperature Max:{{ day.tempmax }}</p>
         <p>Temperature Min:{{ day.tempmin }}</p>
         <p>Climate: {{ day.description }}</p>
+        <button
+          @click="getMoreDetails" 
+          class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 mt-2"
+        >
+          More Details
+        </button>
+        <div class="">
+          <Modal :isVisible="showModal" @close="showModal = false">
+            <p>Humidity: {{ day.humidity }}</p>
+            <p>WindSpeed: {{ day.windspeed }}</p>
+            <p>Visibility: {{ day.visibility }}</p>
+            <p>Sunrise: {{ day.sunrise }}</p>
+            <p>Sunset: {{ day.sunset }}</p>
+          </Modal>
+        </div>
   </div>
+</div>
+
 
 </template>
 
 <script>
+import Modal from './Modal.vue';
+
 export default {
   name: 'Home',
+  components: {
+    Modal
+  },
   data() {
     return {
         apiKey: "9PPEYVDKG65Y5Y9MEUJMEHGXN",
@@ -46,6 +69,7 @@ export default {
         isEmpty: true,
         isLoading: false,
         errorMessage: "",
+        showModal: false
     }
   },
   methods: {
@@ -84,7 +108,10 @@ export default {
       'clear-night': require('../assets/sunny.png'),
     };
     return icons[icon];
-  }
+  },
+  getMoreDetails() {
+    this.showModal = true;
+  },
   }
 }
 </script>
