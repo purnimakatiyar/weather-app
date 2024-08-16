@@ -10,10 +10,10 @@ export default {
     addBackground() {
       return {
         backgroundImage: `url(${require('@/assets/background2.jpg')})`,
-        backgroundSize: 'cover', // Ensure the image covers the entire background
-        backgroundPosition: 'center', // Center the image
-        height: '100%', // Make sure the background covers the full viewport height
-        width: '100%', // Make sure the background covers the full width
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '100%',
+        width: '100%',
       };
     },
   },
