@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center flex-col sns">
+  <div class="flex justify-center items-center flex-col sns mt-8">
     <div class="flex justify-center items-center">
       <img class="size-20" alt="Weather logo" src="../assets/weather.png">
     </div>
@@ -25,7 +25,6 @@
   <div v-if="!isEmpty" class="flex justify-center flex-wrap gap-4">
     <div
       v-for="day in weatherData.days"
-      :key="day.datetime"
       class="w-96 flex flex-col items-center border border-blue-300 rounded-lg p-4"
     >
       <img :src="getWeatherIcon(day.icon)" alt="Weather Icon" class="w-16 h-16 mt-2" />
