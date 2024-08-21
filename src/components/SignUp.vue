@@ -1,21 +1,42 @@
 <template>
-  <img class="logo" alt="Weather logo" src="../assets/weather.png">
-  <h1>Sign Up</h1>
+  <div class="flex justify-center items-center flex-col sns mt-8">
+    <div class="flex justify-center items-center">
+      <img class="size-20" alt="Weather logo" src="../assets/weather.png">
+    </div>
+    <h1 class="text-xl font-bold">Signup</h1>
   <div class="register">
     <input type="text" placeholder="Enter Name" />
-    <input type="text" placeholder="Enter Email" />
-    <input type="password" placeholder="Enter Password" />
-    <button>Sign Up</button>
+    <input type="text" placeholder="Enter Email" v-model="email"/>
+    <input type="password" placeholder="Enter Password" v-model="password"/>
+    <button @click="createAccount">Sign Up</button>
     <p>
     <router-link to="/login">Go to Login</router-link>
     </p>
   </div>
+  </div>
 </template>
 
-<script>
-export default {
-    name: 'SignUp'
+<script setup>
+import { ref } from 'vue';
+import { supabase } from '../clients/supabase';
+
+const email = ref('');
+const password = ref('');
+
+const createAccount = async() => {
+  console.log("I am in signup");
+ const { data, error } = await supabase.auth.signUp({
+  email: email.value,
+  password: password.value
+ });
+if (error){
+  console.log(error);
 }
+else{
+  console.log(data);
+}
+};
+
 </script>
 
 <style>
@@ -35,7 +56,8 @@ h1{
   margin-left: auto;
   border: 1px solid skyblue;
 }
-.register button{
+
+.register button {
   width: 320px;
   height: 40px;
   border: 1px solid #87CEEB;
