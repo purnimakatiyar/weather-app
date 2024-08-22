@@ -10,6 +10,7 @@ export default {
     addBackground() {
       return {
         backgroundImage: `url(${require('@/assets/background2.jpg')})`,
+
         backgroundSize: 'cover', 
         backgroundPosition: 'center', 
         height: '100%', 
