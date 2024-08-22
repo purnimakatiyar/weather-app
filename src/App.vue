@@ -10,10 +10,11 @@ export default {
     addBackground() {
       return {
         backgroundImage: `url(${require('@/assets/background2.jpg')})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: '100%',
-        width: '100%',
+
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center', 
+        height: '100%', 
+        width: '100%', 
       };
     },
   },
@@ -27,7 +28,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  /* margin-top: 60px; */
   height: 100%;
 }
 </style>

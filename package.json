@@ -8,9 +8,18 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@supabase/supabase-js": "^2.0.0-rc.13",
+    "axios": "^1.7.4",
     "core-js": "^3.8.3",
-    "vue": "^3.2.13",
-    "vue-router": "^4.0.13"
+    "pinia": "^2.2.2",
+    "vue": "^3.2.45",
+    "vue-google-oauth2": "^1.5.10",
+    "vue-router": "^4.0.13",
+    "vue3-google-login": "^2.0.33",
+    "vue3-google-oauth2": "^1.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
