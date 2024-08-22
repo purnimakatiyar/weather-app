@@ -7,7 +7,7 @@
     <form class="weather-form" @submit="getWeather">
       <input type="text" v-model="form.city" placeholder="Enter City">
       <button type="submit" :disabled="isLoading">
-        <div v-if="isLoading" class="loader"></div>
+         <Loader v-if="isLoading"/> 
         Submit
       </button>
     </form>
@@ -25,7 +25,7 @@
   <div v-if="!isEmpty" class="flex justify-center flex-wrap gap-4">
     <div
       v-for="day in weatherData.days"
-      class="w-96 flex flex-col items-center border border-blue-300 rounded-lg p-4"
+      class="w-96 flex flex-col items-center border border-black rounded-lg p-4"
     >
       <img :src="getWeatherIcon(day.icon)" alt="Weather Icon" class="w-16 h-16 mt-2" />
       <p>Date: {{ day.datetime }}</p>
@@ -41,13 +41,18 @@
         More Details
       </button>
       <div>
-        <Modal :isVisible="showModal" @close="showModal = false">
-          <p>Modal Content</p>
-          <p>Humidity: {{ day.humidity }}</p>
-          <p>WindSpeed: {{ day.windspeed }}</p>
-          <p>Visibility: {{ day.visibility }}</p>
-          <p>Sunrise: {{ day.sunrise }}</p>
-          <p>Sunset: {{ day.sunset }}</p>
+        <Modal
+          :isVisible="showModal"
+          @close="showModal = false"
+          class="bg-white p-6 rounded-lg shadow-lg border border-lightblue-200"
+        >
+          <div class="text-center">
+            <p class="text-lightblue-600 text-lg font-semibold mb-2">Humidity: {{ day.humidity }}</p>
+            <p class="text-lightblue-600 text-lg font-semibold mb-2">WindSpeed: {{ day.windspeed }}</p>
+            <p class="text-lightblue-600 text-lg font-semibold mb-2">Visibility: {{ day.visibility }}</p>
+            <p class="text-lightblue-600 text-lg font-semibold mb-2">Sunrise: {{ day.sunrise }}</p>
+            <p class="text-lightblue-600 text-lg font-semibold">Sunset: {{ day.sunset }}</p>
+          </div>
         </Modal>
       </div>
     </div>
@@ -57,7 +62,7 @@
 <script setup>
 import { ref } from 'vue';
 import Modal from './Modal.vue';
-
+import Loader from './Loader.vue';
 
 const apiKey = "9PPEYVDKG65Y5Y9MEUJMEHGXN";
 const baseUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
@@ -131,48 +136,5 @@ const getMoreDetails = () => {
   cursor: pointer;
   background: #87CEEB;
   color: #fff;
-}
-
-.weather-card {
-  justify-content: space-between;
-  border: 1px solid #87CEEB;
-  padding: 2%;
-  margin-bottom: 2%;
-  margin-left: 35%;
-  border-radius: 4px;
-}
-
-.weather-card p {
-  margin: 0;
-  flex: 1;
-  text-align: center;
-}
-
-.loader {
-  width: 50px;
-  padding: 8px;
-  margin-top: 40%;
-  margin-left: 40%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: #87CEEB;
-  --_m:
-    conic-gradient(#0000 10%, #000),
-    linear-gradient(#000 0 0) content-box;
-  -webkit-mask: var(--_m);
-          mask: var(--_m);
-  -webkit-mask-composite: source-out;
-          mask-composite: subtract;
-  animation: l3 1s infinite linear;
-}
-
-@keyframes l3 {
-  to { transform: rotate(1turn); }
-}
-
-@media only screen and (max-width: 768px) {
-  .weather-card {
-    margin-left: 0%;
-  }
 }
 </style>

@@ -1,0 +1,5 @@
+{
+  "appId": "must.be.unique.id.android",
+  "appName": "weather-app",
+  "webDir": "dist"
+}

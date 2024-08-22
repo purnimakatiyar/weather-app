@@ -9,8 +9,11 @@
     <input type="text" placeholder="Enter Email" v-model="email"/>
     <input type="password" placeholder="Enter Password" v-model="password"/>
     <button @click="createAccount">Sign Up</button>
-    <p>
-    <router-link to="/login">Go to Login</router-link>
+    <p class="text-gray-600">
+      Already have an account? 
+      <router-link to="/" class="text-blue-500 hover:text-blue-700 font-semibold underline ml-1">
+        Login here
+      </router-link>
     </p>
   </div>
   </div>
@@ -58,11 +61,12 @@ h1{
 }
 
 .register button {
-  width: 320px;
+  width: 300px;
   height: 40px;
   border: 1px solid #87CEEB;
   cursor: pointer;
   background: #87CEEB;
   color: #fff;
+  margin-bottom: 3%;
 }
 </style>
