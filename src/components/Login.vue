@@ -14,7 +14,8 @@
         <P>Or</P>
       <div class="mt-3 mb-3">
         <div class="flex items-center justify-center">
-          <button @click="signInWithGoogle" class="flex items-center justify-center bg-white dark:bg-gray-900 border border-gray-300 rounded-lg shadow-md px-6 py-2 
+          <button @click="signInWithGoogle" class="flex items-center justify-center bg-white dark:bg-gray-900 
+            border border-gray-300 rounded-lg shadow-md px-6 py-2 
             text-sm font-medium text-gray-800 dark:text-white hover:bg-gray-200 focus:outline-none 
             focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 w-full">
             <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -111,6 +112,7 @@ const signInWithGoogle = () => {
             fetchUserDataFrom(response.code)
             console.log("success");
             console.log(response.code);
+            sessionStorage.setItem('token', JSON.stringify(response.code) );
             router.push('/home');
           }
         },
@@ -125,6 +127,8 @@ const logout = async() => {
     console.log(error);   
   }
   else{
+    sessionStorage.removeItem('token');
+    router.push('/');
     console.log("logout has been successful");
   }
 }

@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { ref } from 'vue';
 
@@ -26,8 +25,6 @@ export const useUserStore = defineStore('user', () => {
 
       if (data) {
         const accessToken = data.access_token
-
-        // Fetch user details using the access token
         const userObj = await axios.get(
           'https://www.googleapis.com/oauth2/v3/userinfo',
           {
@@ -38,12 +35,10 @@ export const useUserStore = defineStore('user', () => {
         )
 
         if (userObj && userObj.data) {
-          // save copy in storage
           localStorage.setItem('user', JSON.stringify(userObj.data))
           userData.value = userObj.data
         }
         else {
-          // Handle the case where userResponse or userResponse.data is undefined
           console.error('Failed to fetch user data')
         }
       }
@@ -54,12 +49,9 @@ export const useUserStore = defineStore('user', () => {
   }
 
   return {
-    // Data
     clientId,
     clientSecret,
     userData,
-
-    // Functions
     fetchUserDataFrom,
   }
 })

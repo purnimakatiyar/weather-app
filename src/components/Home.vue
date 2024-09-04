@@ -1,5 +1,40 @@
 <template>
-  <div class="flex justify-center items-center flex-col sns mt-8">
+<nav class="bg-sky-400 text-white p-4 sticky top-0">
+    <div class="container mx-auto flex justify-between items-center">
+      <div><img class="size-10" alt="Weather logo" src="../assets/weather.png"></div>
+      <div class="hidden md:flex space-x-4 items-center">
+    <a href="#home" class="hover:text-gray-300">Home</a>
+    <router-link to="/maps" class="block hover:text-gray-300">Maps</router-link>
+    <a href="#about" class="hover:text-gray-300">About</a>
+    <a href="#contact" class="hover:text-gray-300">Contact</a>
+    <button
+      class="bg-blue-700 text-white px-2 py-1 rounded hover:bg-blue-800 transition-colors"
+      @click="logout"
+    >
+      Logout
+    </button>
+  </div>
+      <div class="md:hidden">
+        <i class="fas fa-bars text-2xl cursor-pointer" @click="toggleMenu"></i>
+      </div>
+    </div>
+
+    <div v-if="isMenuOpen" class="md:hidden mt-4 bg-sky-700 p-4 rounded-lg shadow-lg">
+      <ul class="space-y-4">
+        <li><a href="#home" class="block hover:text-gray-300">Home</a></li>
+        <li><router-link to="/maps" class="block hover:text-gray-300">Maps</router-link></li>
+        <li><a href="#about" class="block hover:text-gray-300">About</a></li>
+        <li><a href="#contact" class="block hover:text-gray-300">Contact</a></li>
+        <button
+      class="bg-blue-700 text-white px-2 py-1 rounded hover:bg-blue-800 transition-colors"
+      @click="logout"
+    >
+      Logout
+    </button>
+      </ul>
+    </div>
+  </nav>
+  <div class="flex justify-center items-center flex-col sns mt-20">
     <div class="flex justify-center items-center">
       <img class="size-20" alt="Weather logo" src="../assets/weather.png">
     </div>
@@ -57,12 +92,47 @@
       </div>
     </div>
   </div>
+  <section id="about" class="py-12 flex justify-center items-center min-h-screen">
+  <div class="container mx-auto text-center">
+    <h1 class="text-2xl font-bold mb-4">About Us</h1>
+    <p class="text-gray-600 mb-4 ml-10 mr-10">
+      Welcome to our Weather Information Application! We are passionate about providing accurate and timely weather forecasts to help you plan your day with confidence. Our app uses advanced weather data and visualization tools to give you real-time updates on current weather conditions, future forecasts, and more.
+      We are committed to delivering reliable and easy-to-understand weather information, so you can make informed decisions no matter where you are.
+    </p>
+    <p class="text-gray-600">
+      Thank you for choosing our weather application. Stay safe and enjoy the sunshine (or prepare for the rain)!
+    </p>
+  </div>
+</section>
+
+  <section id="contact" class="py-12">
+    <div class="container mx-auto">
+      <h1 class="text-xl font-bold">Contact Us</h1>
+      <form class="max-w-lg mx-auto">
+        <div class="mb-2">
+          <label for="name" class="block text-gray-700 font-bold mb-2">Name:</label>
+          <input type="text" id="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400">
+        </div>
+        <div class="mb-2">
+          <label for="email" class="block text-gray-700 font-bold mb-2">Email:</label>
+          <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400">
+        </div>
+        <div class="mb-2">
+          <label for="message" class="block text-gray-700 font-bold mb-2">Message:</label>
+          <textarea id="message" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-sky-500 text-white py-2 rounded-lg hover:bg-sky-600">Send Message</button>
+      </form>
+    </div>
+  </section>
+
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import Modal from './Modal.vue';
 import Loader from './Loader.vue';
+import { useRouter } from 'vue-router';
 
 const apiKey = "9PPEYVDKG65Y5Y9MEUJMEHGXN";
 const baseUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
@@ -73,7 +143,12 @@ const isEmpty = ref(true);
 const isLoading = ref(false);
 const errorMessage = ref("");
 const showModal = ref(false);
+const isMenuOpen = ref(false);
+const router = useRouter();
 
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value;
+};
 
 const getWeather = async (e) => {
   e.preventDefault();
@@ -114,6 +189,11 @@ const getWeatherIcon = (icon) => {
 const getMoreDetails = () => {
   showModal.value = true;
 };
+
+const logout = () => {
+  sessionStorage.removeItem('token');
+  router.push('/');
+}
 </script>
 
 <style>
@@ -137,4 +217,5 @@ const getMoreDetails = () => {
   background: #87CEEB;
   color: #fff;
 }
+
 </style>
